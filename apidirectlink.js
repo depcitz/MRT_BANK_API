@@ -17,11 +17,11 @@ app.listen(port, () => { console.log(ip.address() + "  =>" + 'Start server API B
 
 
 
-const action_approval_payment = require('./routes/action_approval_payment_route');
-//const action_payment = require('./routes/');
+const action_n23_approval_payment = require('./routes/action_n23_approval_payment_route');
+const action_n24_approval_payment = require('./routes/action_n24_approval_payment_route');
 
 
 
 
-app.use('/api/status', action_approval_payment);
-
+app.use('/n23/status', action_n23_approval_payment);
+app.use('/n24/status', action_n24_approval_payment);

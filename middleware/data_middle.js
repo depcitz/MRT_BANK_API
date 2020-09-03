@@ -1,4 +1,3 @@
-
 const util_fun = require("../utils/util_fun");
 
 exports.data_mid = (req,res,next)=>{ 
@@ -9,5 +8,3 @@ exports.data_mid = (req,res,next)=>{
   
     
 }
-
-

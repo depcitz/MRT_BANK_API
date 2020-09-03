@@ -1,7 +1,9 @@
 
 
 const util_res_error = require("../utils/util_res_error");
+const code_error = require("../utils/code_error");
 
+const config = require("../config/env");
 
 exports.check_auth = (req, res, next) => {
 
@@ -15,15 +17,14 @@ exports.check_auth = (req, res, next) => {
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
     const [username, password] = credentials.split(':');
 
-    const real_user = "userman:passman";
+    const real_user = `${config.main_config.AUTH_USER}:${config.main_config.AUTH_PASS}`;
     const user = `${username}:${password}`;
 
-
+    
     if (!(real_user == user)) {
-        return res.status(401).json({ message: 'Invalid Authentication Credentials' });
+        res.send(util_res_error.json_error_approval(req.body, code_error.status_invalid_auth_error.respCode, code_error.status_invalid_auth_error.respMsg))
     } else {
-        console.log("asdkpaksdp")
-       res.send(util_res_error.json_error_approval(req.body,1,"ald[paldpsl[p")) 
+        next();      
     }
 }
 

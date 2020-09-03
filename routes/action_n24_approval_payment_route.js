@@ -1,0 +1,43 @@
+const express = require('express');
+const router = express.Router();
+const mid_data = require("../middleware/data_middle");
+const mid_auth = require("../middleware/auth_middle");
+const mid_check_approval = require("../middleware/check_approval_middle");
+const mid_check_payment = require("../middleware/check_payment_middle");
+const action_approval_payment = require("../controllers/action_n24_approval_payment_controller");
+
+
+
+//N24
+
+router.post('/approval',
+mid_data.data_mid
+,mid_auth.check_auth
+,mid_check_approval.status_notbusiness_hour_number_error
+,mid_check_approval.status_invalid_priceoramount_error
+,mid_check_approval.status_field_or_parameter_approval_error
+,action_approval_payment.action_approval
+);
+
+
+
+router.post('/payment',
+mid_data.data_mid
+,mid_auth.check_auth
+,mid_check_payment.status_notbusiness_hour_number_error
+,mid_check_payment.status_invalid_priceoramount_error
+,mid_check_payment.status_field_or_parameter_approval_error
+,action_approval_payment.action_payment
+);
+
+
+
+
+
+
+
+
+
+
+
+module.exports = router;

@@ -11,11 +11,7 @@ const config_code_error = {
     status_field_or_parameter_error: {
         respCode:102,
         respMsg:"Require field or parameter is null"
-    },
-    status_field_or_parameter_error: {
-        respCode:102,
-        respMsg:"Require field or parameter is null"
-    },
+    },    
     status_over_limit_nunber_or_amount_error: {
         respCode:103,
         respMsg:"Transaction amount or number of transaction is over limit "
