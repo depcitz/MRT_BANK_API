@@ -13,9 +13,9 @@ exports.action_approval = (req, res) => {
         "respMsg": "Successful",
         "balance": balance,
         "cusName": cusName,
-        "print1": "Print 1 TEST",
-        "print2": "Print 2 TEST",
-        "print3": "Print 3 TEST" 
+        "print1": "Print 1 TEST Approval",
+        "print2": "Print 2 TEST Approval",
+        "print3": "Print 3 TEST Approval",
     })
 }
 
@@ -32,9 +32,9 @@ exports.action_payment = (req, res) => {
         "respMsg": "Successful",
         "balance": balance,
         "cusName": cusName,
-        "print1": "Print 1 TEST",
-        "print2": "Print 2 TEST",
-        "print3": "Print 3 TEST" 
+        "print1": "Print 1 TEST Payment",
+        "print2": "Print 2 TEST Payment",
+        "print3": "Print 3 TEST Payment",
     })
 }
 
