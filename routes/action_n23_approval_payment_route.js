@@ -13,6 +13,7 @@ const action_approval_payment = require("../controllers/action_n23_approval_paym
 router.post('/approval',
 mid_data.data_mid
 ,mid_auth.check_auth_approval
+,mid_check_approval.status_invalid_reference_error_n23
 ,mid_check_approval.status_notbusiness_hour_number_error
 ,mid_check_approval.status_invalid_priceoramount_error
 ,mid_check_approval.status_field_or_parameter_approval_error
