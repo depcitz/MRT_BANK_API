@@ -14,6 +14,7 @@ router.post('/approval',
 mid_data.data_mid
 ,mid_auth.check_auth_approval
 ,mid_check_approval.status_invalid_reference_error_n23
+,mid_check_approval.status_invalid_priceoramount_error_n23
 ,mid_check_approval.status_notbusiness_hour_number_error
 ,mid_check_approval.status_invalid_priceoramount_error
 ,mid_check_approval.status_field_or_parameter_approval_error
@@ -25,6 +26,9 @@ mid_data.data_mid
 router.post('/payment',
 mid_data.data_mid
 ,mid_auth.check_auth_payment
+,mid_check_payment.status_invalid_reference_error_n23
+,mid_check_payment.status_invalid_priceoramount_error_n23
+,mid_check_payment.status_invalid_transaction_number_error_n23
 ,mid_check_payment.status_notbusiness_hour_number_error
 ,mid_check_payment.status_invalid_priceoramount_error
 ,mid_check_payment.status_field_or_parameter_approval_error
