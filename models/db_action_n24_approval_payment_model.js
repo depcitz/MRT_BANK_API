@@ -1,7 +1,7 @@
 const pool = require("../config/db_con");
 const config = require("../config/env");
 
-exports.db_request_update_approval_n23 = function (obj, callback) {
+exports.db_request_update_approval_n24 = function (obj, callback) {
 
 
     let ref1 = obj.ref1
@@ -14,7 +14,7 @@ exports.db_request_update_approval_n23 = function (obj, callback) {
     let bank_ref = obj.bankRef
 
     const query = {
-        text: `UPDATE public.t_carparking_payment_qr_n23	SET
+        text: `UPDATE public.t_carparking_payment_qr_n24	SET
     req_approval_data=$3
     ,date_time=$4
     ,eff_date=$5
@@ -44,7 +44,7 @@ exports.db_request_update_approval_n23 = function (obj, callback) {
 
 
 
-exports.db_response_update_approval_n23 = function (obj, res_obj, callback) {
+exports.db_response_update_approval_n24 = function (obj, res_obj, callback) {
 
     let ref1 = obj.ref1
     let ref2 = obj.ref2
@@ -53,7 +53,7 @@ exports.db_response_update_approval_n23 = function (obj, res_obj, callback) {
 
 
     const query = {
-        text: `UPDATE public.t_carparking_payment_qr_n23	SET
+        text: `UPDATE public.t_carparking_payment_qr_n24	SET
     res_approval_data=$3 
     WHERE ref1 = $1 and  ref2 = $2 and payment_status='APPROVAL';`,
         values: [ref1, ref2, res_approval_data],
@@ -81,7 +81,7 @@ exports.db_response_update_approval_n23 = function (obj, res_obj, callback) {
 
 
 ////// PAYMENT //////
-exports.db_request_update_payment_n23 = function (obj, callback) {
+exports.db_request_update_payment_n24 = function (obj, callback) {
 
     
     let ref1 = obj.ref1
@@ -93,7 +93,7 @@ exports.db_request_update_payment_n23 = function (obj, callback) {
 
 
     const query = {
-        text: `UPDATE public.t_carparking_payment_qr_n23	SET
+        text: `UPDATE public.t_carparking_payment_qr_n24	SET
     req_payment_data=$3
     ,date_time=$4
     ,eff_date=$5
@@ -124,7 +124,7 @@ exports.db_request_update_payment_n23 = function (obj, callback) {
 
 
 
-exports.db_response_update_payment_n23 = function (obj, res_obj, callback) {
+exports.db_response_update_payment_n24 = function (obj, res_obj, callback) {
 
     let ref1 = obj.ref1
     let ref2 = obj.ref2
@@ -132,7 +132,7 @@ exports.db_response_update_payment_n23 = function (obj, res_obj, callback) {
 
 
     const query = {
-        text: `UPDATE public.t_carparking_payment_qr_n23	SET
+        text: `UPDATE public.t_carparking_payment_qr_n24	SET
     res_payment_data=$3 
     WHERE ref1 = $1 and  ref2 = $2 and payment_status='PAYMENT';`,
         values: [ref1, ref2, res_payment_data],
@@ -162,13 +162,13 @@ exports.db_response_update_payment_n23 = function (obj, res_obj, callback) {
 // MIDDLEWARE APPROVAL //
 
 
-exports.db_check_approval_status_invalid_reference_n23 = function (obj, callback) {
+exports.db_check_approval_status_invalid_reference_n24 = function (obj, callback) {
 
     let ref1 = obj.ref1
     let ref2 = obj.ref2  
 
     const query = {
-        text: `SELECT count(*) from t_carparking_payment_qr_n23 
+        text: `SELECT count(*) from t_carparking_payment_qr_n24
         WHERE  ref1 = $1 
         AND  ref2 = $2 
         AND payment_status='WAIT_PAY';`,
@@ -194,13 +194,13 @@ exports.db_check_approval_status_invalid_reference_n23 = function (obj, callback
 
 
 
-exports.db_check_approval_status_invalid_priceoramount_error_n23 = function (obj, callback) {
+exports.db_check_approval_status_invalid_priceoramount_error_n24 = function (obj, callback) {
 
     let ref1 = obj.ref1
     let ref2 = obj.ref2  
 
     const query = {
-        text: `SELECT payment_total from t_carparking_payment_qr_n23 
+        text: `SELECT payment_total from t_carparking_payment_qr_n24
         WHERE  ref1 = $1 
         AND  ref2 = $2 
         AND payment_status='WAIT_PAY';`,
@@ -229,13 +229,13 @@ exports.db_check_approval_status_invalid_priceoramount_error_n23 = function (obj
 // MIDDLEWARE PAYMENT //
 
 
-exports.db_check_payment_status_invalid_reference_n23 = function (obj, callback) {
+exports.db_check_payment_status_invalid_reference_n24 = function (obj, callback) {
 
     let ref1 = obj.ref1
     let ref2 = obj.ref2  
 
     const query = {
-        text: `SELECT count(*) from t_carparking_payment_qr_n23 
+        text: `SELECT count(*) from t_carparking_payment_qr_n24 
         WHERE  ref1 = $1 
         AND  ref2 = $2 
         AND payment_status='APPROVAL';`,
@@ -260,13 +260,13 @@ exports.db_check_payment_status_invalid_reference_n23 = function (obj, callback)
 }
 
 
-exports.db_check_payment_status_invalid_priceoramount_error_n23 = function (obj, callback) {
+exports.db_check_payment_status_invalid_priceoramount_error_n24 = function (obj, callback) {
 
     let ref1 = obj.ref1
     let ref2 = obj.ref2  
 
     const query = {
-        text: `SELECT payment_total from t_carparking_payment_qr_n23 
+        text: `SELECT payment_total from t_carparking_payment_qr_n24 
         WHERE  ref1 = $1 
         AND  ref2 = $2 
         AND payment_status='APPROVAL';`,
@@ -291,13 +291,13 @@ exports.db_check_payment_status_invalid_priceoramount_error_n23 = function (obj,
 }
 
 
-exports.db_check_payment_status_invalid_transaction_number_error_n23 = function (obj, callback) {
+exports.db_check_payment_status_invalid_transaction_number_error_n24 = function (obj, callback) {
 
     let ref1 = obj.ref1
     let ref2 = obj.ref2  
 
     const query = {
-        text: `SELECT tranx_id from t_carparking_payment_qr_n23 
+        text: `SELECT tranx_id from t_carparking_payment_qr_n24 
         WHERE  ref1 = $1 
         AND  ref2 = $2 
         AND payment_status='APPROVAL';`,

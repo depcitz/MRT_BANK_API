@@ -40,11 +40,8 @@ exports.action_payment = (req, res) => {
 
             db_response_update_payment_n23(req.body, data_res, function (err, data) {
 
-
             })
         }
-
-
 
 
     })

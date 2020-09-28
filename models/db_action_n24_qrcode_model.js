@@ -3,7 +3,7 @@ const config = require("../config/env");
 
 
 
-exports.db_insert_qrcode_transaction_n23 = function (obj,object_qrcode, callback) {
+exports.db_insert_qrcode_transaction_n24 = function (obj,object_qrcode, callback) {
 
     let qr_string = object_qrcode.query_qr_string+object_qrcode.crc
     let qr_data = object_qrcode
@@ -11,8 +11,8 @@ exports.db_insert_qrcode_transaction_n23 = function (obj,object_qrcode, callback
     let tcch_id =  obj.m_tcch_id;
     let tci_data = obj;
     let building_id =  obj.m_building_id;  
-    let com_code = config.config_bank.COMCODE_N23
-    let prod_code = config.config_bank.PRODUCTCODE_N23
+    let com_code = config.config_bank.COMCODE_N24
+    let prod_code = config.config_bank.PRODUCTCODE_N24
     let ref1 = obj.m_ref1
     let ref2 = obj.m_ref2
     let payment_total = obj.m_payment_amount
@@ -22,7 +22,7 @@ exports.db_insert_qrcode_transaction_n23 = function (obj,object_qrcode, callback
 
 
     const query = {
-    text: `INSERT INTO public.t_carparking_payment_qr_n23(
+    text: `INSERT INTO public.t_carparking_payment_qr_n24(
     tranx_id
     ,tci_id
     ,tcch_id

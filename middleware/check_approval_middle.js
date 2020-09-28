@@ -4,7 +4,16 @@ const config = require("../config/env");
 const code_error = require("../utils/code_error");
 const util_res_error = require("../utils/util_res_error");
 var moment = require('moment');
-const { db_check_approval_status_invalid_reference_n23, db_check_approval_status_invalid_priceoramount_error_n23 } = require("../models/db_action_n23_approval_payment_model");
+const { 
+        db_check_approval_status_invalid_reference_n23, 
+        db_check_approval_status_invalid_priceoramount_error_n23
+ } = require("../models/db_action_n23_approval_payment_model");
+
+
+ const { 
+        db_check_approval_status_invalid_reference_n24, 
+        db_check_approval_status_invalid_priceoramount_error_n24
+ } = require("../models/db_action_n24_approval_payment_model");
 
 
 exports.check_status_communication_error = (req, res, next) => {
@@ -102,6 +111,8 @@ exports.status_field_or_parameter_approval_error = (req, res, next) => {
 
 
 
+// Check N23
+
 exports.status_invalid_reference_error_n23 = (req, res, next) => {
 
         db_check_approval_status_invalid_reference_n23(req.body, function (err, data) {
@@ -137,7 +148,43 @@ exports.status_invalid_priceoramount_error_n23 = (req, res, next) => {
 
 }
 
+// Check N24
 
+
+exports.status_invalid_reference_error_n24 = (req, res, next) => {
+
+        db_check_approval_status_invalid_reference_n24(req.body, function (err, data) {
+                let data_check = data.count
+                if (data_check == 0) {
+                        res.send(util_res_error.json_error_approval(req.body, code_error.status_invalid_reference_error.respCode, code_error.status_invalid_reference_error.respMsg))
+                } else {
+                        next()
+                }
+
+        })
+
+}
+
+
+exports.status_invalid_priceoramount_error_n24 = (req, res, next) => {
+
+        db_check_approval_status_invalid_priceoramount_error_n24(req.body, function (err, data) {
+                let data_amount = data.payment_total
+                let req_amount = req.body.amount
+
+                if (data_amount == req_amount) {
+                        next()
+                } else {
+                        res.send(util_res_error.json_error_approval(req.body, code_error.status_invalid_priceoramount_error.respCode, code_error.status_invalid_priceoramount_error.respMsg))
+                }
+
+
+
+        })
+
+
+
+}
 
 
 

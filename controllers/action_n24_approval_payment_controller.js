@@ -1,40 +1,56 @@
-
-
+const {
+    db_request_update_approval_n24
+    , db_response_update_approval_n24
+    , db_request_update_payment_n24
+    , db_response_update_payment_n24
+} = require("../models/db_action_n24_approval_payment_model");
+const util_fun = require("../utils/util_fun");
+const code_error = require("../utils/code_error");
+const util_res_error = require("../utils/util_res_error");
 
 exports.action_approval = (req, res) => {
-    let bankRef = req.body.bankRef
-    let balance = Number(req.body.amount).toFixed(2);       
-    let cusName = req.body.cusName
-    let tranxId = Math.floor(Math.random() * 9999999999) + 1;
-    res.send({
-        "tranxId": tranxId,
-        "bankRef": bankRef,
-        "respCode": 0,
-        "respMsg": "Successful",
-        "balance": balance,
-        "cusName": cusName,
-        "print1": "Print 1 TEST Approval",
-        "print2": "Print 2 TEST Approval",
-        "print3": "Print 3 TEST Approval" 
+    
+    db_request_update_approval_n24(req.body, async function (err, data) {
+        //console.log(data)
+        if (data == null) {
+
+        }else{
+            let data_res = await util_fun.mergObjectApproval(req.body, data);
+            res.send(data_res)      
+            db_response_update_approval_n24(req.body, data_res, function (err, data) {
+    
+    
+            })
+        }
+       
+
     })
 }
+
 
 
 exports.action_payment = (req, res) => {
-    let bankRef = req.body.bankRef
-    let balance = Number(req.body.amount).toFixed(2);       
-    let cusName = req.body.cusName
-    let tranxId = req.body.tranxId
-    res.send({
-        "tranxId": tranxId,
-        "bankRef": bankRef,
-        "respCode": 0,
-        "respMsg": "Successful",
-        "balance": balance,
-        "cusName": cusName,
-        "print1": "Print 1 TEST Payment",
-        "print2": "Print 2 TEST Payment",
-        "print3": "Print 3 TEST Payment" 
+
+    db_request_update_payment_n24(req.body, async function (err, data) {
+        if (data == null) {
+            res.send(util_res_error.json_error_payment(req.body, code_error.status_other_error.respCode, code_error.status_other_error.respMsg))
+        } else {
+            let data_res = await util_fun.mergObjectPayment(req.body);
+            res.send(data_res)
+
+            db_response_update_payment_n24(req.body, data_res, function (err, data) {
+
+            })
+        }
+
+
     })
+
+
+
+
+
 }
+
+
 
