@@ -12,7 +12,7 @@ const config_env = {
     },
  
     main_config: {
-        PORT: 6418,
+        PORT: 4144,
         AUTH_USER:"uatktb",
         AUTH_PASS:"uatpark@ride"
 

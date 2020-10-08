@@ -29,10 +29,12 @@ exports.db_request_update_approval_n23 = function (obj, callback) {
     pool.connect().then(client => {
         return client.query(query)
             .then(result => {
+                console.log(result.rows)
                 client.release(true)
                 return callback(null, result.rows[0].tranx_id);
             })
-            .catch(err => {              
+            .catch(err => {          
+                console.log("asdlap[dapasdasdsd")
                 client.release(true)
                 return callback(null,null);
             })
@@ -68,6 +70,7 @@ exports.db_response_update_approval_n23 = function (obj, res_obj, callback) {
 
             })
             .catch(err => {
+                console.log(err)  
                 client.release(true)
                 return callback(null, null);
             })

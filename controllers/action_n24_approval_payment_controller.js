@@ -13,7 +13,7 @@ exports.action_approval = (req, res) => {
     db_request_update_approval_n24(req.body, async function (err, data) {
         //console.log(data)
         if (data == null) {
-
+            res.send(util_res_error.json_error_approval(req.body, code_error.status_other_error.respCode, code_error.status_other_error.respMsg))
         }else{
             let data_res = await util_fun.mergObjectApproval(req.body, data);
             res.send(data_res)      

@@ -3,7 +3,7 @@ const config_qrdata_n23 = {
       
         t00: {tag_id:'00',length:'02',value:"01"},
         t01: {tag_id:'01',length:'02',value:"12"},
-        t30: {  
+        t30: {
           tag_id: '30',      
           st00: {
             sub_tag_id:'00',
@@ -13,15 +13,15 @@ const config_qrdata_n23 = {
           st01: {
             sub_tag_id:'01',
             length: "15",
-            value: "099400016570601"
+            value: "099400016570602"
           }
         },
-        t53: {
+        t53:{
           tag_id:'53',
           length: "03",
           value: "764"
         },
-        t58: {
+        t58:{
           tag_id:'58',
           length: "02",
           value: "TH"
@@ -36,10 +36,6 @@ const config_qrdata_n23 = {
           length: "04",
           value: ""
         }
-               
-     
-     
-
 
 }
 

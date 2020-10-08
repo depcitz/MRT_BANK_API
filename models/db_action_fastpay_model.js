@@ -48,25 +48,30 @@ exports.db_update_fastpay_booking = function (obj, callback) {
         ,payment_surchange=$20
         ,payment_totalamt=$21 
         ,payment_res_bank_data=$22
-        ,payment_amount=$23
+        ,payment_bank_out_payref=$23
         ,payment_bank_status = 'PAY'
         ,booking_parking_status = 'SUCCESS'       
         ,booking_parking_hold_time = '1 hour'::interval 
         ,booking_parking_start_time = current_timestamp
         ,update_date= current_timestamp     
         ,payment_res_bank_time = current_timestamp  
-        WHERE tbpi_id=$1, tbpi_code=$2 ;`,
-        values: [],
+        WHERE tbpi_id = to_number($1,'99999999999999999999')::bigint    and  tbpi_code=$2 ;`,
+        values: [
+            orderRef2,orderRef,orderRef,prc,src,ord,holder,successCode,orderRef1,orderRef2,amt,
+            cur,remark,authId,eci,payerAuth,sourceIp,ipCountry,cardNo,surCharge,totalAmt,obj,payRef
+        ],
     }
-
+  
     pool.connect().then(client => {
         return client.query(query)
             .then(result => {
+                console.log(result)
                 client.release(true)
                 return callback(null, result.rows);
 
             })
             .catch(err => {
+                console.log(err)
                 client.release(true)
                 return callback(null, null);
             })

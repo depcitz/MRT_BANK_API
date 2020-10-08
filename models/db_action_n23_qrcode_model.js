@@ -5,6 +5,8 @@ const config = require("../config/env");
 
 exports.db_insert_qrcode_transaction_n23 = function (obj,object_qrcode, callback) {
 
+    
+
     let qr_string = object_qrcode.query_qr_string+object_qrcode.crc
     let qr_data = object_qrcode
     let tci_id =  obj.m_tci_id;
