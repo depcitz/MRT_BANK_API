@@ -77,7 +77,7 @@ app.use('/n24/qrcode', action_n24_qrcode);
 
 // API FAST_PAY
 const action_fastpay = require('./routes/action_fastpay_route');
-app.use('/api/pay', action_fastpay);
+app.use('/pay', action_fastpay);
 
 
 

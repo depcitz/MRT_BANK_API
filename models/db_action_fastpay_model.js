@@ -6,10 +6,10 @@ exports.db_update_fastpay_booking = function (obj, callback) {
     let prc = obj.prc
     let src = obj.src
     let ord = obj.ord
-    let holder = obj.holder 
+    let holder = obj.holder
     let successCode = obj.successCode
     let orderRef1 = obj.orderRef1
-    let orderRef2 = obj.orderRef2    
+    let orderRef2 = obj.orderRef2
     let payRef = obj.payRef
     let amt = obj.amt
     let cur = obj.cur
@@ -57,11 +57,11 @@ exports.db_update_fastpay_booking = function (obj, callback) {
         ,payment_res_bank_time = current_timestamp  
         WHERE tbpi_id = to_number($1,'99999999999999999999')::bigint    and  tbpi_code=$2 ;`,
         values: [
-            orderRef2,orderRef,orderRef,prc,src,ord,holder,successCode,orderRef1,orderRef2,amt,
-            cur,remark,authId,eci,payerAuth,sourceIp,ipCountry,cardNo,surCharge,totalAmt,obj,payRef
+            orderRef2, orderRef, orderRef, prc, src, ord, holder, successCode, orderRef1, orderRef2, amt,
+            cur, remark, authId, eci, payerAuth, sourceIp, ipCountry, cardNo, surCharge, totalAmt, obj, payRef
         ],
     }
-  
+
     pool.connect().then(client => {
         return client.query(query)
             .then(result => {
@@ -76,6 +76,131 @@ exports.db_update_fastpay_booking = function (obj, callback) {
                 return callback(null, null);
             })
     })
+
+
+
+}
+
+
+
+
+exports.db_fastpay_newmenber = async function (obj, callback) {
+    let res_data = obj
+    let orderRef = obj.orderRef
+    let orderRef1 = obj.orderRef1
+    let orderRef2 = obj.orderRef2
+    let amt = obj.amt
+    var res_tmcpi_id = ''
+
+
+    let txt_queryinsert_t_member_card_payment_info = `insert into t_member_card_payment_info
+        (tmcpi_code,tmcpi_time,wrmp_id,building_id,customer_id,prefix_name,first_name,last_name,
+        identity_card,address,sub_district_id,sub_district_name,district_id,district_name,province_id,province_name,zip_code,
+        mobile_number,payment_type_id,payment_event_id,payment_monthly_amount,payment_pledge_amount,
+        payment_discount_amount,payment_customer_amount,payment_withdraw_amount,payment_status,
+        payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount) 
+         
+        select 
+        ('TNM0'||upper(replace(uuid_generate_v4()::text,'-',''))),current_timestamp,
+        wrmp_id,building_id,customer_id,prefix_name,
+        register_firstname,
+        register_lastname,
+        identity_card,
+        register_address,
+        sub_district_id,sub_district_name,
+        district_id,district_name,
+        province_id,province_name,zip_code,
+        register_mobile_number,
+        6 as payment_type_id,
+        1 as payment_event_id,
+        1000.00 as payment_monthly_amount,
+        400.00 as payment_pledge_amount,
+        0.00 as payment_discount_amount,
+        1400.00 as payment_customer_amount,
+        0.00 as payment_withdraw_amount,
+        'PAY' as payment_status,
+        current_timestamp,
+        $2,$3,$4,$5,$6                               
+        from w_register_member_parking 
+        where wrmp_id = to_number($1,'99999999999999999999')::bigint RETURNING tmcpi_id`;
+
+
+    const query_insert_t_member_card_payment_infog = {
+        text: txt_queryinsert_t_member_card_payment_info,
+        values: [orderRef2, res_data, orderRef, orderRef1, orderRef2, amt],
+    }
+
+
+    let txt_update_w_register_member_parking = `UPDATE public.w_register_member_parking
+            SET 
+            workflow_id= 10
+            ,wait_payment_status='PAY'
+            ,wait_receive_membercard_status='NOT_RECEIVE'
+            ,wait_receive_membercard_interval= '3 day'::interval 
+            ,wait_receive_membercard_timestamp= current_timestamp
+            ,tmcpi_id= $2
+            WHERE wrmp_id = to_number($1,'99999999999999999999')::bigint;` ;
+
+    let query_update_w_register_member_parking = {
+        text: txt_update_w_register_member_parking,
+        values: [orderRef2, res_tmcpi_id],
+    }
+
+
+    const client = await pool.connect()
+    try {
+        await client.query('BEGIN')
+        let res_tmcpi_id = (await client.query(query_insert_t_member_card_payment_infog)).rows[0].tmcpi_id;
+        query_update_w_register_member_parking.values[1] = res_tmcpi_id
+        await client.query(query_update_w_register_member_parking);
+        await client.query('COMMIT')
+
+    } catch (e) {
+        await client.query('ROLLBACK')
+        client.release(true)
+        return callback(null, null)
+
+    } finally {
+
+        client.release(true)
+        return callback(null, true)
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+exports.db_fastpay_renewmenber = function (obj, callback) {
+    // let orderRef = obj.orderRef
+    // let prc = obj.prc
+    // let src = obj.src
+    // let ord = obj.ord
+    // let holder = obj.holder 
+    // let successCode = obj.successCode
+    // let orderRef1 = obj.orderRef1
+    // let orderRef2 = obj.orderRef2    
+    // let payRef = obj.payRef
+    // let amt = obj.amt
+    // let cur = obj.cur
+    // let remark = obj.remark
+    // let authId = obj.authId
+    // let eci = obj.eci
+    // let payerAuth = obj.payerAuth
+    // let sourceIp = obj.sourceIp
+    // let ipCountry = obj.ipCountry
+    // let cardNo = obj.cardNo
+    // let surCharge = obj.surCharge
+    // let totalAmt = obj.totalAmt
+    console.log("Renewmenber")
+    console.log(obj)
+    return callback(null, true);
 
 
 
