@@ -1,6 +1,8 @@
 
 let date = require('date-and-time');
 const { crc16ccitt } = require('crc');
+const util_fun = require("../utils/util_fun");
+
 
 exports.show_log_res = (obj) => {
     try {
@@ -76,6 +78,8 @@ exports.mergObjectApproval = (obj, obj_tranxId) => {
     let balance = Number(obj.amount).toFixed(2);
     let cusName = obj.cusName
     let tranxId = obj_tranxId
+
+
     let result = {
         "tranxId": tranxId,
         "bankRef": bankRef,
@@ -87,6 +91,7 @@ exports.mergObjectApproval = (obj, obj_tranxId) => {
         "print2": "Print 2 TEST Approval",
         "print3": "Print 3 TEST Approval",
     }
+    util_fun.show_log_res(result)
     return result;
 }
 
@@ -107,6 +112,8 @@ exports.mergObjectApproval = (obj, obj_tranxId) => {
         "print2": "Print 2 TEST Approval",
         "print3": "Print 3 TEST Approval",
     }
+
+    util_fun.show_log_res(result)
     return result;
 }
 

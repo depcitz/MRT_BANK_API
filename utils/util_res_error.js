@@ -1,10 +1,12 @@
 
 let date = require('date-and-time');
+const util_fun = require("../utils/util_fun");
+
 
 exports.json_error_approval = (obj, respCode, respMsg) => {
         let tranxId = Math.floor(Math.random() * 9999999999) + 1;
         let bankRef = obj.bankRef;
-        return {
+        let result = {
                 "tranxId": tranxId,
                 "bankRef": bankRef,
                 "respCode": respCode,
@@ -16,6 +18,8 @@ exports.json_error_approval = (obj, respCode, respMsg) => {
                 "print2": "Print 2 approval",
                 "print3": "Print 3 approval"
         }
+        util_fun.show_log_res(result)
+        return result
 
 }
 
@@ -24,7 +28,7 @@ exports.json_error_payment = (obj, respCode, respMsg) => {
         let tranxId = Math.floor(Math.random() * 9999999999) + 1;
         let bankRef = obj.bankRef;
         let cusName = obj.cusName;
-        return {
+        let result = {
                 "tranxId": tranxId,
                 "bankRef": bankRef,
                 "respCode": respCode,
@@ -36,6 +40,9 @@ exports.json_error_payment = (obj, respCode, respMsg) => {
                 "print2": "Print 2 payment",
                 "print3": "Print 3 payment"
         }
+
+        util_fun.show_log_res(result)
+        return result
 
 }
 

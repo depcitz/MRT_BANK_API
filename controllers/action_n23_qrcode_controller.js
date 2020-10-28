@@ -6,7 +6,6 @@ const format = require('response-format');
  exports.action_add_qrcode = async (req, res) => {
 
 
-
 let object_reuslt =  await  util_fun.mergObjectToQRCode(req.body,config_qrdata)
 
  db_insert_qrcode_transaction_n23(req.body,object_reuslt, function (err, data) {

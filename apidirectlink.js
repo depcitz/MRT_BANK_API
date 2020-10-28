@@ -23,48 +23,19 @@ app.listen(port, () => { console.log(ip.address() + "  =>" + 'Start server API B
 
 
 // API DIRECT LINK
-const action_n23_approval_payment = require('./routes/action_n23_approval_payment_route');
-const action_n24_approval_payment = require('./routes/action_n24_approval_payment_route');
-
-app.use('/n23/status', action_n23_approval_payment);
-app.use('/n24/status', action_n24_approval_payment);
+const action_approval = require('./routes/action_approval_route');
+const action_payment = require('./routes/action_payment_route');
+//const action_approval_payment = require('./routes/action_payment_route');
 
 
 
-app.use('/status/approval', (req, res,next) => {
 
-  switch (req.body.comCode) {
-    case "911208":  
-      res.redirect(307,'/n23/status/approval');
-      break;
-    case "911209": 
-      res.redirect(307,'/n24/status/approval');
-      break;
-    default:
-        res.send(util_res_error.json_error_approval(req.body, code_error.status_other_error.respCode, code_error.status_other_error.respMsg))
-      break;
-  }
-}
-)
+
+app.use('/status/approval',action_approval);
+app.use('/status/payment',action_payment);
 
 
 
-app.use('/status/payment', (req, res,next) => {
-
-  switch (req.body.comCode) {
-    case "911208":
-      res.redirect(307,'/n23/status/payment');
-      break;
-    case "911209":   
-      res.redirect(307,'/n24/status/payment');
-      break;
-
-    default:
-        res.send(util_res_error.json_error_payment(req.body, code_error.status_other_error.respCode, code_error.status_other_error.respMsg))
-      break;
-  }
-}
-)
 
 
 // API QRCODE
