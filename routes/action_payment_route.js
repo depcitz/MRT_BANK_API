@@ -13,6 +13,8 @@ const {action_payment} = require("../controllers/action_payment_controller");
 
 router.post('/',  
 mid_data.data_mid
+,mid_check_payment.status_invalid_auth_error
+,mid_check_payment.status_transaction_number_duplicate_number_error
 ,mid_check_payment.status_invalid_reference_error
 ,mid_check_payment.status_limit_invalid_priceoramount_error
 ,mid_check_payment.status_invalid_transaction_number_error

@@ -4,7 +4,8 @@ const util_fun = require("../utils/util_fun");
 
 
 exports.json_error_approval = (obj, respCode, respMsg) => {
-        let tranxId = Math.floor(Math.random() * 9999999999) + 1;
+        //  let tranxId = Math.floor(Math.random() * 9999999999) + 1;
+        let tranxId = obj.tranxId
         let bankRef = obj.bankRef;
         let result = {
                 "tranxId": tranxId,
@@ -25,7 +26,7 @@ exports.json_error_approval = (obj, respCode, respMsg) => {
 
 
 exports.json_error_payment = (obj, respCode, respMsg) => {
-        let tranxId = Math.floor(Math.random() * 9999999999) + 1;
+        let tranxId = obj.tranxId;
         let bankRef = obj.bankRef;
         let cusName = obj.cusName;
         let result = {

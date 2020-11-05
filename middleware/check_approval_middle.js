@@ -6,13 +6,15 @@ const util_res_error = require("../utils/util_res_error");
 var moment = require('moment');
 const {
         db_check_approval_status_invalid_reference_n23,
-        db_check_approval_status_invalid_priceoramount_error_n23
+        db_check_approval_status_invalid_priceoramount_error_n23,
+        db_check_approval_status_transaction_number_duplicate_number_error_n23
 } = require("../models/db_action_n23_approval_payment_model");
 
 
 const {
         db_check_approval_status_invalid_reference_n24,
-        db_check_approval_status_invalid_priceoramount_error_n24
+        db_check_approval_status_invalid_priceoramount_error_n24,
+        db_check_approval_status_transaction_number_duplicate_number_error_n24
 } = require("../models/db_action_n24_approval_payment_model");
 
 
@@ -20,6 +22,59 @@ exports.check_status_communication_error = (req, res, next) => {
         //TODO CHECK communication
         next()
 }
+
+ 
+exports.status_transaction_number_duplicate_number_error = (req, res, next) => {
+
+        switch (req.body.comCode) {
+                case "911208":
+                        db_check_approval_status_transaction_number_duplicate_number_error_n23(req.body, function (err, data) {
+
+                                if (data == 0) {
+                                        next()
+                                } else {
+                                        res.send(util_res_error.json_error_approval(req.body, code_error.status_transaction_number_duplicate_number_error.respCode, code_error.status_transaction_number_duplicate_number_error.respMsg))
+
+                                }
+
+                        })
+                        break;
+                case "911209":
+                        db_check_approval_status_transaction_number_duplicate_number_error_n24(req.body, function (err, data) {
+
+                                if (data == 0) {
+                                        next()
+                                } else {
+                                        res.send(util_res_error.json_error_approval(req.body, code_error.status_transaction_number_duplicate_number_error.respCode, code_error.status_transaction_number_duplicate_number_error.respMsg))
+
+                                }
+
+                        })
+
+                        break;
+                default:
+                        res.send(util_res_error.json_error_approval(req.body, code_error.status_transaction_number_duplicate_number_error.respCode, code_error.status_transaction_number_duplicate_number_error.respMsg))
+                        break;
+        }
+
+
+}
+
+
+
+exports.status_invalid_auth_error = (req, res, next) => {
+      
+        if (req.body.user  !=  config.main_config.AUTH_USER  || req.body.password != config.main_config.AUTH_PASS ) {
+           
+                res.send(util_res_error.json_error_approval(req.body, code_error.status_invalid_auth_error.respCode, code_error.status_invalid_auth_error.respMsg))
+        } else {
+                         
+                next()
+        }
+}
+
+
+
 
 
 exports.status_limit_invalid_priceoramount_error = (req, res, next) => {

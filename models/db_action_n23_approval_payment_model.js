@@ -162,6 +162,7 @@ exports.db_response_update_payment_n23 = function (obj, res_obj, callback) {
 
 
 
+
 // MIDDLEWARE APPROVAL //
 
 
@@ -324,4 +325,69 @@ exports.db_check_payment_status_invalid_transaction_number_error_n23 = function 
 
 
 
- 
+
+
+
+exports.db_check_approval_status_transaction_number_duplicate_number_error_n23 = function (obj, callback) {
+
+    let ref1 = obj.ref1
+    let ref2 = obj.ref2
+
+    const query = {
+        text: `select count(*) from t_carparking_payment_qr_n23
+        where ref1 = $1    and ref2  = $2
+        and payment_status  in ('PAYMENT', 'APPROVAL');`,
+        values: [ref1,ref2],
+    }
+     
+    pool.connect().then(client => {
+        return client.query(query)
+            .then(result => {
+             
+                client.release(true)              
+                return callback(null, result.rows[0].count);
+
+
+            })
+            .catch(err => {
+                client.release(true)
+               return callback(null, null);
+            })
+    })
+
+}
+
+
+exports.db_check_payment_status_transaction_number_duplicate_number_error_n23 = function (obj, callback) {
+
+    let ref1 = obj.ref1
+    let ref2 = obj.ref2
+
+    const query = {
+        text: `select count(*) from t_carparking_payment_qr_n23
+        where ref1 = $1    and ref2  = $2
+        and payment_status  in ('PAYMENT');`,
+        values: [ref1,ref2],
+    }
+     
+    pool.connect().then(client => {
+        return client.query(query)
+            .then(result => {
+             
+                client.release(true)              
+                return callback(null, result.rows[0].count);
+
+
+            })
+            .catch(err => {
+                client.release(true)
+               return callback(null, null);
+            })
+    })
+
+}
+
+
+
+
+

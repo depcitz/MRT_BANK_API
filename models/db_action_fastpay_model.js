@@ -55,6 +55,7 @@ exports.db_update_fastpay_booking = function (obj, callback) {
         ,booking_parking_start_time = current_timestamp
         ,update_date= current_timestamp     
         ,payment_res_bank_time = current_timestamp  
+        ,booking_parking_status = 'SUCCESS'
         WHERE tbpi_id = to_number($1,'99999999999999999999')::bigint    and  tbpi_code=$2 ;`,
         values: [
             orderRef2, orderRef, orderRef, prc, src, ord, holder, successCode, orderRef1, orderRef2, amt,

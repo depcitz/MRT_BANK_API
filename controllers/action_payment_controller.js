@@ -18,8 +18,6 @@ exports.action_payment = (req, res) => {
 
     switch (req.body.comCode) {
         case "911208":
-
-
             db_request_update_payment_n23(req.body, async function (err, data) {
                 if (data == null) {
                     res.send(util_res_error.json_error_payment(req.body, code_error.status_other_error.respCode, code_error.status_other_error.respMsg))
