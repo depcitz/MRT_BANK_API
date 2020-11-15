@@ -2,7 +2,7 @@
 let date = require('date-and-time');
 const { crc16ccitt } = require('crc');
 const util_fun = require("../utils/util_fun");
-
+let moment = require('moment-timezone');
 
 exports.show_log_res = (obj) => {
     try {
@@ -30,10 +30,10 @@ exports.show_log_req = (obj) => {
 
 
 
-exports.mergObjectToQRCode = (object_local, object_qrdata) => {
+exports.mergObjectToQRCode = (object_local, object_qrdata,obj_ref2) => {
     let obj_result = object_qrdata;
     obj_result.t30["st02"] = { sub_tag_id: '02', length: formatNumberLengthQR(object_local.m_ref1.length), value: object_local.m_ref1 }
-    obj_result.t30["st03"] = { sub_tag_id: '03', length: formatNumberLengthQR(object_local.m_ref2.length), value: object_local.m_ref2 }
+    obj_result.t30["st03"] = { sub_tag_id: '03', length: formatNumberLengthQR(obj_ref2.length), value: obj_ref2 }
     obj_result['t54'] = {
         tag_id: '54', length: formatNumberLengthQR(object_local.m_payment_totle.toFixed(2).length), value: object_local.m_payment_totle.toFixed(2)
 
@@ -76,6 +76,7 @@ function formatNumberLengthQR(inputNumber) {
 
 
 exports.mergObjectApproval = (obj, obj_tranxId) => {
+    let time_stamp = moment().tz('Etc/GMT-7').format('YYYY-MM-DD HH:mm:ss')
     let bankRef = obj.bankRef
     let balance = Number(obj.amount).toFixed(2);
     let cusName = obj.cusName
@@ -87,7 +88,7 @@ exports.mergObjectApproval = (obj, obj_tranxId) => {
         "respMsg": "Successful",
         "balance": balance,
         "cusName": cusName,
-        "print1": "Print 1 TEST Approval",
+        "print1": time_stamp,
         "print2": "Print 2 TEST Approval",
         "print3": "Print 3 TEST Approval",
     }
@@ -98,6 +99,7 @@ exports.mergObjectApproval = (obj, obj_tranxId) => {
 
 
 exports.mergObjectPayment = (obj) => {
+    let time_stamp = moment().tz('Etc/GMT-7').format('YYYY-MM-DD HH:mm:ss')
     let bankRef = obj.bankRef
     let balance = Number(obj.amount).toFixed(2);
     let cusName = obj.cusName
@@ -109,10 +111,22 @@ exports.mergObjectPayment = (obj) => {
         "respMsg": "Successful",
         "balance": balance,
         "cusName": cusName,
-        "print1": "Print 1 TEST Payment",
+        "print1": time_stamp,
         "print2": "Print 2 TEST Payment",
         "print3": "Print 3 TEST Payment",
     }
     return result;
 }
 
+
+  
+
+
+  exports.genref2 =  (obj) => { 
+   
+   let time_stamp = moment().tz('Etc/GMT-7').format('YYMMDDHHmmss')
+   let cabinet = ("0" + obj.m_cabinet_id).slice(-2)
+   let res_amount = obj.m_payment_totle
+ 
+    return `${time_stamp}${cabinet}${res_amount}`;
+  }

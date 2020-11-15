@@ -12,3 +12,20 @@
 3.1391746508
 4.2732220364
 5.853367244
+
+
+update t_carparking_payment_qr_n23
+set 
+req_approval_data = null
+,res_approval_data = null
+,req_payment_data = null
+,res_payment_data = null
+,com_code  = null
+,prod_code  = null
+,date_time  = null
+,eff_date  = null
+,bank_code  = null
+,bank_ref  = null
+,payment_status = 'WAIT_PAY'
+,approval_date  = null
+,payment_date  = null
