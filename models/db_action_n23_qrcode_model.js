@@ -98,24 +98,19 @@ exports.db_action_checkpay_qrcode_n23 = function (obj, callback) {
 
     const query = {
         text: `
-    select count(*) from t_carparking_payment_qr_n23
-    WHERE 
-    payment_status in('APPROVAL','PAYMENT') 
-    AND  qr_string = $1
-       
-       `,
+        select req_payment_data as data_bank from t_carparking_payment_qr_n23
+        WHERE 
+        payment_status in('PAYMENT') 
+        AND  qr_string = $1`,
         values: [qr_string],
     }
+
 
     pool.connect().then(client => {
         return client.query(query)
             .then(result => {
-                client.release(true)             
-                if (result.rows[0].count == 0) {
-                    return callback(null, "NOT_PAY");
-                } else {
-                    return callback(null, "PAY");
-                }
+                client.release(true)                    
+                return callback(null, result.rows);
 
             }).catch(err => {
                 client.release(true)

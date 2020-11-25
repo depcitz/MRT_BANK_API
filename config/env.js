@@ -1,7 +1,7 @@
 const config_env = {
     db_config: {
 
-        //UAT
+        // //UAT
         // HOST_DB: "27.254.122.36",
         // PORT_DB:7215,
         // DATABASE_DB:"cit_carparking_mrt_online_db",
@@ -24,10 +24,14 @@ const config_env = {
 
     main_config: {
         PORT: 6418,
+
+        // // UAT
         // AUTH_USER:"uatktb",
         // AUTH_PASS:"uatpark@ride"
-        AUTH_USER: "realktb",
-        AUTH_PASS: "realpark@ride"
+
+        // PRODUCTION
+         AUTH_USER: "realktb",
+         AUTH_PASS: "realpark@ride"
 
 
 

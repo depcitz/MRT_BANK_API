@@ -372,7 +372,7 @@ exports.db_fastpay_newmenber_cancel = async function (obj, callback) {
         1000.00 as payment_monthly_amount,
         400.00 as payment_pledge_amount,
         0.00 as payment_discount_amount,
-        1400.00 as payment_customer_amount,
+        0.00 as payment_customer_amount,
         0.00 as payment_withdraw_amount,
         'CANCEL_PAY' as payment_status,
         current_timestamp,
@@ -446,7 +446,7 @@ exports.db_fastpay_newmenber_fail = async function (obj, callback) {
         1000.00 as payment_monthly_amount,
         400.00 as payment_pledge_amount,
         0.00 as payment_discount_amount,
-        1400.00 as payment_customer_amount,
+        0.00 as payment_customer_amount,
         0.00 as payment_withdraw_amount,
         'FAIL_PAY' as payment_status,
         current_timestamp,
@@ -500,16 +500,18 @@ exports.db_fastpay_renewmenber_fail = async function (obj, callback) {
 
     let txt_queryinsert_t_member_card_payment_info = `
     insert into t_member_card_payment_info
-            (tmcpi_code,tmcpi_time,building_id,customer_id,prefix_name,first_name,last_name,
-            identity_card,address,sub_district_id,sub_district_name,district_id,district_name,province_id,province_name,zip_code,
-            mobile_number,card_id,card_code,card_start_time,card_expire_time,payment_type_id,payment_event_id,payment_monthly_amount,payment_pledge_amount,
-            payment_discount_amount,payment_customer_amount,payment_withdraw_amount,payment_status,
-            payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount) 
-    
-    select 
-            ('TRNM0'||upper(replace(uuid_generate_v4()::text,'-',''))),current_timestamp,
-            mc_building_id,customer_id,prefix_name,
-            customer_firstname,
+    (tmcpi_code,tmcpi_time,building_id,customer_id,mc_customer_code,prefix_name,first_name,last_name,
+    identity_card,address,sub_district_id,sub_district_name,district_id,district_name,province_id,province_name,zip_code,
+    mobile_number,card_id,card_code,card_start_time,card_expire_time,payment_type_id,payment_event_id,payment_monthly_amount,payment_pledge_amount,
+    payment_discount_amount,payment_customer_amount,payment_withdraw_amount,payment_status,
+    payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount) 
+
+select 
+    ('TRNM0'||upper(replace(uuid_generate_v4()::text,'-',''))),current_timestamp,
+    mc_building_id,customer_id,
+    mcc.customer_code,
+    prefix_name,
+    customer_firstname,
             customer_lastname,
             customer_identity_card,
             customer_address,
@@ -581,16 +583,18 @@ exports.db_fastpay_renewmenber_cancel = async function (obj, callback) {
 
     let txt_queryinsert_t_member_card_payment_info = `
     insert into t_member_card_payment_info
-            (tmcpi_code,tmcpi_time,building_id,customer_id,prefix_name,first_name,last_name,
-            identity_card,address,sub_district_id,sub_district_name,district_id,district_name,province_id,province_name,zip_code,
-            mobile_number,card_id,card_code,card_start_time,card_expire_time,payment_type_id,payment_event_id,payment_monthly_amount,payment_pledge_amount,
-            payment_discount_amount,payment_customer_amount,payment_withdraw_amount,payment_status,
-            payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount) 
-    
-    select 
-            ('TRNM0'||upper(replace(uuid_generate_v4()::text,'-',''))),current_timestamp,
-            mc_building_id,customer_id,prefix_name,
-            customer_firstname,
+    (tmcpi_code,tmcpi_time,building_id,customer_id,mc_customer_code,prefix_name,first_name,last_name,
+    identity_card,address,sub_district_id,sub_district_name,district_id,district_name,province_id,province_name,zip_code,
+    mobile_number,card_id,card_code,card_start_time,card_expire_time,payment_type_id,payment_event_id,payment_monthly_amount,payment_pledge_amount,
+    payment_discount_amount,payment_customer_amount,payment_withdraw_amount,payment_status,
+    payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount) 
+
+select 
+    ('TRNM0'||upper(replace(uuid_generate_v4()::text,'-',''))),current_timestamp,
+    mc_building_id,customer_id,
+    mcc.customer_code,
+    prefix_name,
+    customer_firstname,
             customer_lastname,
             customer_identity_card,
             customer_address,
@@ -661,7 +665,7 @@ exports.db_fastpay_renewmenber = async function (obj, callback) {
 
     let txt_queryinsert_t_member_card_payment_info = `
     insert into t_member_card_payment_info
-            (tmcpi_code,tmcpi_time,building_id,customer_id,prefix_name,first_name,last_name,
+            (tmcpi_code,tmcpi_time,building_id,customer_id,mc_customer_code,prefix_name,first_name,last_name,
             identity_card,address,sub_district_id,sub_district_name,district_id,district_name,province_id,province_name,zip_code,
             mobile_number,card_id,card_code,card_start_time,card_expire_time,payment_type_id,payment_event_id,payment_monthly_amount,payment_pledge_amount,
             payment_discount_amount,payment_customer_amount,payment_withdraw_amount,payment_status,
@@ -669,7 +673,9 @@ exports.db_fastpay_renewmenber = async function (obj, callback) {
     
     select 
             ('TRNM0'||upper(replace(uuid_generate_v4()::text,'-',''))),current_timestamp,
-            mc_building_id,customer_id,prefix_name,
+            mc_building_id,customer_id,
+            mcc.customer_code,
+            prefix_name,
             customer_firstname,
             customer_lastname,
             customer_identity_card,
@@ -686,11 +692,11 @@ exports.db_fastpay_renewmenber = async function (obj, callback) {
             1000.00 as payment_monthly_amount,
             0.00 as payment_pledge_amount,
             0.00 as payment_discount_amount,
-            0.00 as payment_customer_amount,
+            1000.00 as payment_customer_amount,
             0.00 as payment_withdraw_amount,
             'PAY' as payment_status,
             current_timestamp,
-            $2,$3,$4,$5,$6                               
+            $2,$3,$4,$5,$6                            
             from ref_customer_building_card rcbc 
             join mc_customer mcc on rcbc.mc_customer_id = mcc.customer_id
             where rcbc_id = to_number($1,'??99999999999999999999')::bigint`;

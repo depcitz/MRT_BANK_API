@@ -65,8 +65,13 @@ exports.action_checkpay_qrcode =  (req, res) => {
            res.send(data_res_error)
        
        } else {
-           let data_res = format.create('200', false, "checkpay_success",data)
-           res.send(data_res)       
+        if (data.length == 0) {
+            let data_res = format.create('200', false, "NOT_PAY", null)
+            res.send(data_res)
+        } else {
+            let data_res = format.create('200', false, "PAY", data[0])
+            res.send(data_res)
+        } 
        }
    })
    
