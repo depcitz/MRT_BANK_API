@@ -2,7 +2,7 @@ const {
     db_insert_qrcode_transaction_n24
     , db_action_cancel_qrcode_n24
     , db_action_checkpay_qrcode_n24 } = require("../models/db_action_n24_qrcode_model");
-const config_qrdata = require("../config/qrdata_n23");
+const config_qrdata = require("../config/qrdata_n24");
 const util_fun = require("../utils/util_fun");
 const format = require('response-format');
 

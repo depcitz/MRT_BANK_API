@@ -241,8 +241,6 @@ exports.db_update_fastpay_booking_cancel = function (obj, callback) {
             })
     })
 
-
-
 }
 
 
@@ -265,19 +263,26 @@ exports.db_fastpay_newmenber = async function (obj, callback) {
         identity_card,address,sub_district_id,sub_district_name,district_id,district_name,province_id,province_name,zip_code,
         mobile_number,payment_type_id,payment_event_id,payment_monthly_amount,payment_pledge_amount,
         payment_discount_amount,payment_customer_amount,payment_withdraw_amount,payment_status,
-        payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount) 
+        payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount,mc_customer_code) 
          
         select 
         ('TNM0'||upper(replace(uuid_generate_v4()::text,'-',''))),current_timestamp,
-        wrmp_id,building_id,customer_id,prefix_name,
-        register_firstname,
-        register_lastname,
-        identity_card,
-        register_address,
-        sub_district_id,sub_district_name,
-        district_id,district_name,
-        province_id,province_name,zip_code,
-        register_mobile_number,
+        wrmp_id,
+        wrmp.building_id,
+        wrmp.customer_id,
+        wrmp.prefix_name,
+        wrmp.register_firstname,
+        wrmp.register_lastname,
+        wrmp.identity_card,
+        wrmp.register_address,
+        wrmp.sub_district_id,
+        wrmp.sub_district_name,
+        wrmp.district_id,
+        wrmp.district_name,
+        wrmp.province_id,
+        wrmp.province_name,
+        wrmp.zip_code,
+        wrmp.register_mobile_number,
         6 as payment_type_id,
         1 as payment_event_id,
         1000.00 as payment_monthly_amount,
@@ -287,8 +292,11 @@ exports.db_fastpay_newmenber = async function (obj, callback) {
         0.00 as payment_withdraw_amount,
         'PAY' as payment_status,
         current_timestamp,
-        $2,$3,$4,$5,$6                               
-        from w_register_member_parking 
+        $2,$3,$4,$5,$6,
+        mc.customer_code as mc_customer_code                           
+        from w_register_member_parking wrmp
+        LEFT JOIN mc_customer mc
+        ON wrmp.customer_id = mc.customer_id
         where wrmp_id = to_number($1,'99999999999999999999')::bigint RETURNING tmcpi_id`;
 
 
@@ -354,19 +362,26 @@ exports.db_fastpay_newmenber_cancel = async function (obj, callback) {
         identity_card,address,sub_district_id,sub_district_name,district_id,district_name,province_id,province_name,zip_code,
         mobile_number,payment_type_id,payment_event_id,payment_monthly_amount,payment_pledge_amount,
         payment_discount_amount,payment_customer_amount,payment_withdraw_amount,payment_status,
-        payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount) 
+        payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount,mc_customer_code) 
          
         select 
         ('TNM0'||upper(replace(uuid_generate_v4()::text,'-',''))),current_timestamp,
-        wrmp_id,building_id,customer_id,prefix_name,
-        register_firstname,
-        register_lastname,
-        identity_card,
-        register_address,
-        sub_district_id,sub_district_name,
-        district_id,district_name,
-        province_id,province_name,zip_code,
-        register_mobile_number,
+        wrmp_id,
+        wrmp.building_id,
+        wrmp.customer_id,
+        wrmp.prefix_name,
+        wrmp.register_firstname,
+        wrmp.register_lastname,
+        wrmp.identity_card,
+        wrmp.register_address,
+        wrmp.sub_district_id,
+        wrmp.sub_district_name,
+        wrmp.district_id,
+        wrmp.district_name,
+        wrmp.province_id,
+        wrmp.province_name,
+        wrmp.zip_code,
+        wrmp.register_mobile_number,
         6 as payment_type_id,
         1 as payment_event_id,
         1000.00 as payment_monthly_amount,
@@ -376,8 +391,11 @@ exports.db_fastpay_newmenber_cancel = async function (obj, callback) {
         0.00 as payment_withdraw_amount,
         'CANCEL_PAY' as payment_status,
         current_timestamp,
-        $2,$3,$4,$5,$6                               
-        from w_register_member_parking 
+        $2,$3,$4,$5,$6,      
+        mc.customer_code as mc_customer_code                                
+        from w_register_member_parking  wrmp
+        LEFT JOIN mc_customer mc
+        ON wrmp.customer_id = mc.customer_id
         where wrmp_id = to_number($1,'99999999999999999999')::bigint RETURNING tmcpi_id`;
 
 
@@ -409,7 +427,6 @@ exports.db_fastpay_newmenber_cancel = async function (obj, callback) {
 
     }
 
-
 }
 
 
@@ -428,19 +445,26 @@ exports.db_fastpay_newmenber_fail = async function (obj, callback) {
         identity_card,address,sub_district_id,sub_district_name,district_id,district_name,province_id,province_name,zip_code,
         mobile_number,payment_type_id,payment_event_id,payment_monthly_amount,payment_pledge_amount,
         payment_discount_amount,payment_customer_amount,payment_withdraw_amount,payment_status,
-        payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount) 
+        payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount,mc_customer_code) 
          
         select 
         ('TNM0'||upper(replace(uuid_generate_v4()::text,'-',''))),current_timestamp,
-        wrmp_id,building_id,customer_id,prefix_name,
-        register_firstname,
-        register_lastname,
-        identity_card,
-        register_address,
-        sub_district_id,sub_district_name,
-        district_id,district_name,
-        province_id,province_name,zip_code,
-        register_mobile_number,
+        wrmp_id,
+        wrmp.building_id,
+        wrmp.customer_id,
+        wrmp.prefix_name,
+        wrmp.register_firstname,
+        wrmp.register_lastname,
+        wrmp.identity_card,
+        wrmp.register_address,
+        wrmp.sub_district_id,
+        wrmp.sub_district_name,
+        wrmp.district_id,
+        wrmp.district_name,
+        wrmp.province_id,
+        wrmp.province_name,
+        wrmp.zip_code,
+        wrmp.register_mobile_number,
         6 as payment_type_id,
         1 as payment_event_id,
         1000.00 as payment_monthly_amount,
@@ -450,8 +474,11 @@ exports.db_fastpay_newmenber_fail = async function (obj, callback) {
         0.00 as payment_withdraw_amount,
         'FAIL_PAY' as payment_status,
         current_timestamp,
-        $2,$3,$4,$5,$6                               
-        from w_register_member_parking 
+        $2,$3,$4,$5,$6,$7            
+        mc.customer_code as mc_customer_code                 
+        from w_register_member_parking  wrmp
+        LEFT JOIN mc_customer mc
+        ON wrmp.customer_id = mc.customer_id
         where wrmp_id = to_number($1,'99999999999999999999')::bigint RETURNING tmcpi_id`;
 
 
@@ -495,6 +522,7 @@ exports.db_fastpay_renewmenber_fail = async function (obj, callback) {
     let orderRef = obj.orderRef
     let orderRef1 = obj.orderRef1
     let orderRef2 = obj.orderRef2
+    let orderRef3 = obj.orderRef3
     let amt = obj.amt
 
 
@@ -504,7 +532,7 @@ exports.db_fastpay_renewmenber_fail = async function (obj, callback) {
     identity_card,address,sub_district_id,sub_district_name,district_id,district_name,province_id,province_name,zip_code,
     mobile_number,card_id,card_code,card_start_time,card_expire_time,payment_type_id,payment_event_id,payment_monthly_amount,payment_pledge_amount,
     payment_discount_amount,payment_customer_amount,payment_withdraw_amount,payment_status,
-    payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount) 
+    payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_ref3,bank_amount) 
 
 select 
     ('TRNM0'||upper(replace(uuid_generate_v4()::text,'-',''))),current_timestamp,
@@ -524,7 +552,7 @@ select
             null as card_expire_time,
             6 as payment_type_id,
             2 as payment_event_id,
-            1000.00 as payment_monthly_amount,
+            $8 as payment_monthly_amount,
             0.00 as payment_pledge_amount,
             0.00 as payment_discount_amount,
             0.00 as payment_customer_amount,
@@ -534,12 +562,12 @@ select
             $2,$3,$4,$5,$6                               
             from ref_customer_building_card rcbc 
             join mc_customer mcc on rcbc.mc_customer_id = mcc.customer_id
-        where rcbc_id = to_number($1,'??99999999999999999999')::bigint`;
+            where rcbc_id = to_number($1,'??99999999999999999999')::bigint`;
 
 
     const query_insert_t_member_card_payment_infog = {
         text: txt_queryinsert_t_member_card_payment_info,
-        values: [orderRef1, res_data, orderRef, orderRef1, orderRef2, amt],
+        values: [orderRef1, res_data, orderRef, orderRef1, orderRef2,orderRef3 ,amt,amt],
     }
 
 
@@ -553,9 +581,8 @@ select
         await client.query('COMMIT')
 
     } catch (e) {
-    
-        await client.query('ROLLBACK')
         client.release(true)
+        await client.query('ROLLBACK')   
         return callback(null, null)
 
     } finally {
@@ -578,6 +605,7 @@ exports.db_fastpay_renewmenber_cancel = async function (obj, callback) {
     let orderRef = obj.orderRef
     let orderRef1 = obj.orderRef1
     let orderRef2 = obj.orderRef2
+    let orderRef3 = obj.orderRef3
     let amt = obj.amt
 
 
@@ -587,7 +615,7 @@ exports.db_fastpay_renewmenber_cancel = async function (obj, callback) {
     identity_card,address,sub_district_id,sub_district_name,district_id,district_name,province_id,province_name,zip_code,
     mobile_number,card_id,card_code,card_start_time,card_expire_time,payment_type_id,payment_event_id,payment_monthly_amount,payment_pledge_amount,
     payment_discount_amount,payment_customer_amount,payment_withdraw_amount,payment_status,
-    payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount) 
+    payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_ref3,bank_amount) 
 
 select 
     ('TRNM0'||upper(replace(uuid_generate_v4()::text,'-',''))),current_timestamp,
@@ -607,14 +635,14 @@ select
             null as card_expire_time,
             6 as payment_type_id,
             2 as payment_event_id,
-            1000.00 as payment_monthly_amount,
+            $8 as payment_monthly_amount,
             0.00 as payment_pledge_amount,
             0.00 as payment_discount_amount,
             0.00 as payment_customer_amount,
             0.00 as payment_withdraw_amount,
             'CANCEL_PAY' as payment_status,
             current_timestamp,
-            $2,$3,$4,$5,$6                               
+            $2,$3,$4,$5,$6,$7                                
             from ref_customer_building_card rcbc 
             join mc_customer mcc on rcbc.mc_customer_id = mcc.customer_id
         where rcbc_id = to_number($1,'??99999999999999999999')::bigint`;
@@ -622,7 +650,7 @@ select
 
     const query_insert_t_member_card_payment_infog = {
         text: txt_queryinsert_t_member_card_payment_info,
-        values: [orderRef1, res_data, orderRef, orderRef1, orderRef2, amt],
+        values: [orderRef1, res_data, orderRef, orderRef1, orderRef2,orderRef3 ,amt,amt],
     }
 
 
@@ -660,6 +688,7 @@ exports.db_fastpay_renewmenber = async function (obj, callback) {
     let orderRef = obj.orderRef
     let orderRef1 = obj.orderRef1
     let orderRef2 = obj.orderRef2
+    let orderRef3 = obj.orderRef3
     let amt = obj.amt
 
 
@@ -669,7 +698,7 @@ exports.db_fastpay_renewmenber = async function (obj, callback) {
             identity_card,address,sub_district_id,sub_district_name,district_id,district_name,province_id,province_name,zip_code,
             mobile_number,card_id,card_code,card_start_time,card_expire_time,payment_type_id,payment_event_id,payment_monthly_amount,payment_pledge_amount,
             payment_discount_amount,payment_customer_amount,payment_withdraw_amount,payment_status,
-            payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount) 
+            payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_ref3,bank_amount) 
     
     select 
             ('TRNM0'||upper(replace(uuid_generate_v4()::text,'-',''))),current_timestamp,
@@ -686,17 +715,17 @@ exports.db_fastpay_renewmenber = async function (obj, callback) {
             customer_mobile_number,
             card_id,card_code,
             card_expire_time as card_start_time,
-            fun_member_card_getexpiretime(card_expire_time) as card_expire_time,
+            fun_member_card_getexpiretime(card_expire_time,$9) as card_expire_time,
             6 as payment_type_id,
             2 as payment_event_id,
-            1000.00 as payment_monthly_amount,
+            $8 as payment_monthly_amount,
             0.00 as payment_pledge_amount,
             0.00 as payment_discount_amount,
-            1000.00 as payment_customer_amount,
+            $8 as payment_customer_amount,
             0.00 as payment_withdraw_amount,
             'PAY' as payment_status,
             current_timestamp,
-            $2,$3,$4,$5,$6                            
+            $2,$3,$4,$5,$6,$7                            
             from ref_customer_building_card rcbc 
             join mc_customer mcc on rcbc.mc_customer_id = mcc.customer_id
             where rcbc_id = to_number($1,'??99999999999999999999')::bigint`;
@@ -706,19 +735,19 @@ exports.db_fastpay_renewmenber = async function (obj, callback) {
 
     const query_insert_t_member_card_payment_infog = {
         text: txt_queryinsert_t_member_card_payment_info,
-        values: [orderRef1, res_data, orderRef, orderRef1, orderRef2, amt],
+        values: [orderRef1, res_data, orderRef, orderRef1, orderRef2,orderRef3 ,amt,amt,orderRef3],
     }
 
     let txt_update_ref_customer_building_card = `
     UPDATE public.ref_customer_building_card
     SET   
-    card_expire_time =   fun_member_card_getexpiretime(card_expire_time),
+    card_expire_time =   fun_member_card_getexpiretime(card_expire_time,$2),
     update_date = current_timestamp       
     where rcbc_id = to_number($1,'??99999999999999999999')::bigint`;
 
 const query_update_ref_customer_building_card = {
     text: txt_update_ref_customer_building_card,
-    values: [orderRef1],
+    values: [orderRef1,orderRef3],
 }
 
 
@@ -734,9 +763,9 @@ const query_update_ref_customer_building_card = {
         await client.query('COMMIT')
 
     } catch (e) {
-      
+        client.release(true)      
+        console.log(e)
         await client.query('ROLLBACK')
-        client.release(true)
         return callback(null, null)
 
     } finally {

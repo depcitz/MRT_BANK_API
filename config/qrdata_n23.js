@@ -13,7 +13,7 @@ const config_qrdata_n23 = {
           st01: {
             sub_tag_id:'01',
             length: "15",
-            value: "099400016570602"
+            value: "099400016570603"
           }
         },
         t53:{
