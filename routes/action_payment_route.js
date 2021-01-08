@@ -18,7 +18,7 @@ mid_data.data_mid
 ,mid_check_payment.status_invalid_reference_error
 ,mid_check_payment.status_limit_invalid_priceoramount_error
 ,mid_check_payment.status_invalid_transaction_number_error
-,mid_check_payment.status_notbusiness_hour_number_error
+//,mid_check_payment.status_notbusiness_hour_number_error
 ,mid_check_payment.status_invalid_priceoramount_error
 ,mid_check_payment.status_field_or_parameter_approval_error
 ,action_payment
