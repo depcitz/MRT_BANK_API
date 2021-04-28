@@ -254,6 +254,7 @@ exports.db_fastpay_newmenber = async function (obj, callback) {
     let orderRef = obj.orderRef
     let orderRef1 = obj.orderRef1
     let orderRef2 = obj.orderRef2
+    let orderRef3 = obj.orderRef3
     let amt = obj.amt
     var res_tmcpi_id = ''
 
@@ -263,7 +264,7 @@ exports.db_fastpay_newmenber = async function (obj, callback) {
         identity_card,address,sub_district_id,sub_district_name,district_id,district_name,province_id,province_name,zip_code,
         mobile_number,payment_type_id,payment_event_id,payment_monthly_amount,payment_pledge_amount,
         payment_discount_amount,payment_customer_amount,payment_withdraw_amount,payment_status,
-        payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount,mc_customer_code) 
+        payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount,mc_customer_code,bank_ref3) 
          
         select 
         ('TNM0'||upper(replace(uuid_generate_v4()::text,'-',''))),current_timestamp,
@@ -293,7 +294,8 @@ exports.db_fastpay_newmenber = async function (obj, callback) {
         'PAY' as payment_status,
         current_timestamp,
         $2,$3,$4,$5,$6,
-        mc.customer_code as mc_customer_code                           
+        mc.customer_code as mc_customer_code
+        ,$7
         from w_register_member_parking wrmp
         LEFT JOIN mc_customer mc
         ON wrmp.customer_id = mc.customer_id
@@ -302,7 +304,7 @@ exports.db_fastpay_newmenber = async function (obj, callback) {
 
     const query_insert_t_member_card_payment_infog = {
         text: txt_queryinsert_t_member_card_payment_info,
-        values: [orderRef2, res_data, orderRef, orderRef1, orderRef2, amt],
+        values: [orderRef2, res_data, orderRef, orderRef1, orderRef2, amt,orderRef3],
     }
 
 
@@ -311,7 +313,7 @@ exports.db_fastpay_newmenber = async function (obj, callback) {
             workflow_id= 10
             ,wait_payment_status='PAY'
             ,wait_receive_membercard_status='NOT_RECEIVE'
-            ,wait_receive_membercard_interval= '3 day'::interval 
+            ,wait_receive_membercard_interval= '7 day'::interval 
             ,wait_receive_membercard_timestamp= current_timestamp
             ,tmcpi_id= $2
             WHERE wrmp_id = to_number($1,'99999999999999999999')::bigint;` ;
@@ -354,6 +356,7 @@ exports.db_fastpay_newmenber_cancel = async function (obj, callback) {
     let orderRef = obj.orderRef
     let orderRef1 = obj.orderRef1
     let orderRef2 = obj.orderRef2
+    let orderRef3 = obj.orderRef3
     let amt = obj.amt
 
 
@@ -362,7 +365,7 @@ exports.db_fastpay_newmenber_cancel = async function (obj, callback) {
         identity_card,address,sub_district_id,sub_district_name,district_id,district_name,province_id,province_name,zip_code,
         mobile_number,payment_type_id,payment_event_id,payment_monthly_amount,payment_pledge_amount,
         payment_discount_amount,payment_customer_amount,payment_withdraw_amount,payment_status,
-        payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount,mc_customer_code) 
+        payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount,mc_customer_code,bank_ref3) 
          
         select 
         ('TNM0'||upper(replace(uuid_generate_v4()::text,'-',''))),current_timestamp,
@@ -392,7 +395,8 @@ exports.db_fastpay_newmenber_cancel = async function (obj, callback) {
         'CANCEL_PAY' as payment_status,
         current_timestamp,
         $2,$3,$4,$5,$6,      
-        mc.customer_code as mc_customer_code                                
+        mc.customer_code as mc_customer_code
+        ,$7               
         from w_register_member_parking  wrmp
         LEFT JOIN mc_customer mc
         ON wrmp.customer_id = mc.customer_id
@@ -401,7 +405,7 @@ exports.db_fastpay_newmenber_cancel = async function (obj, callback) {
 
     const query_insert_t_member_card_payment_infog = {
         text: txt_queryinsert_t_member_card_payment_info,
-        values: [orderRef2, res_data, orderRef, orderRef1, orderRef2, amt],
+        values: [orderRef2, res_data, orderRef, orderRef1, orderRef2, amt,orderRef3],
     }
 
 
@@ -436,6 +440,7 @@ exports.db_fastpay_newmenber_fail = async function (obj, callback) {
     let orderRef = obj.orderRef
     let orderRef1 = obj.orderRef1
     let orderRef2 = obj.orderRef2
+    let orderRef3 = obj.orderRef3
     let amt = obj.amt
 
 
@@ -445,7 +450,7 @@ exports.db_fastpay_newmenber_fail = async function (obj, callback) {
         identity_card,address,sub_district_id,sub_district_name,district_id,district_name,province_id,province_name,zip_code,
         mobile_number,payment_type_id,payment_event_id,payment_monthly_amount,payment_pledge_amount,
         payment_discount_amount,payment_customer_amount,payment_withdraw_amount,payment_status,
-        payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount,mc_customer_code) 
+        payment_res_bank_time,payment_res_bank_data,bank_order_ref,bank_ref1,bank_ref2,bank_amount,mc_customer_code,bank_ref3) 
          
         select 
         ('TNM0'||upper(replace(uuid_generate_v4()::text,'-',''))),current_timestamp,
@@ -474,8 +479,9 @@ exports.db_fastpay_newmenber_fail = async function (obj, callback) {
         0.00 as payment_withdraw_amount,
         'FAIL_PAY' as payment_status,
         current_timestamp,
-        $2,$3,$4,$5,$6,$7            
-        mc.customer_code as mc_customer_code                 
+        $2,$3,$4,$5,$6,            
+        mc.customer_code as mc_customer_code  
+        ,$7         
         from w_register_member_parking  wrmp
         LEFT JOIN mc_customer mc
         ON wrmp.customer_id = mc.customer_id
@@ -484,7 +490,7 @@ exports.db_fastpay_newmenber_fail = async function (obj, callback) {
 
     const query_insert_t_member_card_payment_infog = {
         text: txt_queryinsert_t_member_card_payment_info,
-        values: [orderRef2, res_data, orderRef, orderRef1, orderRef2, amt],
+        values: [orderRef2, res_data, orderRef, orderRef1, orderRef2, amt,orderRef3],
     }
 
 
@@ -563,6 +569,7 @@ select
             from ref_customer_building_card rcbc 
             join mc_customer mcc on rcbc.mc_customer_id = mcc.customer_id
             where rcbc_id = to_number($1,'??99999999999999999999')::bigint`;
+
 
 
     const query_insert_t_member_card_payment_infog = {
