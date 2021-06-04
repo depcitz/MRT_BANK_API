@@ -1,25 +1,25 @@
 const config_env = {
     db_config: {
 
-        //UAT
-        HOST_DB: "27.254.122.36",
-        PORT_DB:7215,
-        DATABASE_DB:"cit_carparking_mrt_online_db",
-        USER_DB:"postgres",
-        PASSWORD_DB:"Cit@pwddb",  
-        max: 20,
-        idleTimeoutMillis: 0,
-        connectionTimeoutMillis: 2000,
-
-        // //PRODUCTION
-        // HOST_DB: "147.50.143.2",
-        // PORT_DB: 7216,
-        // DATABASE_DB: "cit_carparking_mrt_online_db",
-        // USER_DB: "postgres",
-        // PASSWORD_DB: "c8p8M0c6p8L9y6@pwddb",
+        // //UAT
+        // HOST_DB: "27.254.122.36",
+        // PORT_DB:7215,
+        // DATABASE_DB:"cit_carparking_mrt_online_db",
+        // USER_DB:"postgres",
+        // PASSWORD_DB:"Cit@pwddb",  
         // max: 20,
         // idleTimeoutMillis: 0,
         // connectionTimeoutMillis: 2000,
+
+        //PRODUCTION
+        HOST_DB: "147.50.143.2",
+        PORT_DB: 7216,
+        DATABASE_DB: "cit_carparking_mrt_online_db",
+        USER_DB: "postgres",
+        PASSWORD_DB: "c8p8M0c6p8L9y6@pwddb",
+        max: 20,
+        idleTimeoutMillis: 0,
+        connectionTimeoutMillis: 2000,
         
     },
 
@@ -39,8 +39,8 @@ const config_env = {
     },
     config_error: {
         INVALID_PRICE_OR_AMOUNT: 5000,
-        OPEN_BUSINESS_HOUR_NUMBER: "09:25:00",
-        CLOSE_BUSINESS_HOUR_NUMBER: "22:00:00"
+        OPEN_BUSINESS_HOUR_NUMBER: "00:00:00",
+        CLOSE_BUSINESS_HOUR_NUMBER: "23:59:00"
     },
     config_bank: {
 

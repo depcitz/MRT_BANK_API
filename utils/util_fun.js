@@ -88,9 +88,8 @@ exports.mergObjectApproval = (obj, obj_tranxId) => {
         "respMsg": "Successful",
         "balance": balance,
         "cusName": cusName,
-        "print1": time_stamp,
-        "print2": "Print 2 TEST Approval",
-        "print3": "Print 3 TEST Approval",
+        "print1": time_stamp
+
     }
 
     util_fun.show_log_res(result)
@@ -112,8 +111,7 @@ exports.mergObjectPayment = (obj) => {
         "balance": balance,
         "cusName": cusName,
         "print1": time_stamp,
-        "print2": "Print 2 TEST Payment",
-        "print3": "Print 3 TEST Payment",
+  
     }
     return result;
 }

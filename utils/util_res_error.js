@@ -1,10 +1,11 @@
 
 let date = require('date-and-time');
 const util_fun = require("../utils/util_fun");
+let moment = require('moment-timezone');
 
 
 exports.json_error_approval = (obj, respCode, respMsg) => {
-
+        let time_stamp = moment().tz('Etc/GMT-7').format('YYYY-MM-DD HH:mm:ss')
         let tranxId = obj.tranxId
         let bankRef = obj.bankRef;
         let result = {
@@ -15,9 +16,7 @@ exports.json_error_approval = (obj, respCode, respMsg) => {
                 "balance": 0.00,
                 "cusName": obj.cusName,
                 "info": "information",
-                "print1": "Print 1 approval",
-                "print2": "Print 2 approval",
-                "print3": "Print 3 approval"
+                "print1": time_stamp             
         }
         util_fun.show_log_res(result)
         return result
@@ -26,6 +25,7 @@ exports.json_error_approval = (obj, respCode, respMsg) => {
 
 
 exports.json_error_payment = (obj, respCode, respMsg) => {
+        let time_stamp = moment().tz('Etc/GMT-7').format('YYYY-MM-DD HH:mm:ss')
         let tranxId = obj.tranxId;
         let bankRef = obj.bankRef;
         let cusName = obj.cusName;
@@ -37,9 +37,8 @@ exports.json_error_payment = (obj, respCode, respMsg) => {
                 "balance": 0.00,
                 "cusName": cusName,
                 "info": "information",
-                "print1": "Print 1 payment",
-                "print2": "Print 2 payment",
-                "print3": "Print 3 payment"
+                "print1": time_stamp   
+         
         }
 
         util_fun.show_log_res(result)
